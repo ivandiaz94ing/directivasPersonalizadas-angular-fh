@@ -18,7 +18,7 @@ export class ProductPageComponent {
   // })
 
   public formulario: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.email, Validators.minLength(3)]],
+    name: ['', [Validators.required, Validators.email, Validators.minLength(5)]],
   });
 
   changeColor(){

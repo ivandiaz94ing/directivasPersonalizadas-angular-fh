@@ -13,7 +13,10 @@
     </div>
 
     <div class="col-auto">
-      <span customLabel [color]="colorpadre"></span>
+      <span customLabel
+        [color]="colorpadre"
+        [errors]="formulario.get('name')?.errors">
+        </span>
     </div>
 
   </div>
