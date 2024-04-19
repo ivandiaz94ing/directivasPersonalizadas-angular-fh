@@ -1,11 +1,23 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { User } from '../../interfaces/user-request.interface';
 
 @Component({
   templateUrl: './properties-page.component.html',
   styleUrls: ['./properties-page.component.css']
 })
-export class PropertiesPageComponent {
+export class PropertiesPageComponent implements OnDestroy, OnInit {
+
+
+
+  ngOnInit(): void {
+    setInterval(() =>{
+      this.counter.update(current => current + 1);
+
+      if(this.counter() == 16){
+        this.userEffect.destroy();
+      }
+    },1000)
+  }
 
   public user = signal({
         id: 2,
@@ -15,8 +27,22 @@ export class PropertiesPageComponent {
         avatar: 'https://reqres.in/img/faces/2-image.jpg'
   });
 
-  public fullName = computed(()=> ` ${this.user().first_name} ${this.user().last_name}`)
+  public fullName = computed(()=> ` ${this.user().first_name} ${this.user().last_name}`);
 
+  public counter = signal(10);
+
+  public userEffect = effect(() => {
+    console.log(`${this.user().first_name} - ${this.counter()}`);
+  });
+
+  ngOnDestroy(): void {
+    this.userEffect.destroy();
+  }
+
+
+  IncrementCounter(value : number){
+    this.counter.update(current => current + value);
+  }
 
   onFieldUpdate(field:keyof User, value: string){
 
